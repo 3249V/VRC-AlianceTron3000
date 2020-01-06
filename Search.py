@@ -3,7 +3,7 @@ import time
 from tkinter.ttk import*
 #from LoadingTest import *
 root = Tk()
-photo = PhotoImage(file = r"C:\Users\Connor\Downloads\settings.png")
+photo = PhotoImage(file = r"settings.png")
 bigFrame = Frame(root)
 bigFrame.pack(ipadx= 100)
 bigFrame2 = Frame(root)
