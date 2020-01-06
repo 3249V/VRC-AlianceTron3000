@@ -35,9 +35,6 @@ class WhyEven():
         MainSearch(bigFrame2)
 class MainSearch():
 
-    def func(self):
-        self.get_data2()
-
     def __init__(self, master):
         testFrame = Frame(master)
         test = Label(testFrame)
@@ -64,7 +61,7 @@ class MainSearch():
         self.searchBar = Entry(searchFrame)
         self.searchBar.pack(pady = 2)
 
-        self.button = Button(searchFrame, text="Search", command=self.get_data2)
+        self.button = Button(searchFrame, text="Search", command=self.get_data)
         self.button.pack()
 
         self.resultTitle = Label(bottomFrame, text = "Results:")
@@ -75,23 +72,7 @@ class MainSearch():
 
         self.master.bind('<Return>', self.get_data)
 
-    def get_data(self, event):
-        global entryText
-        global result
-        global rank
-        if self.searchBar.get().upper().strip() in teams:
-
-            self.StatList.delete(0, END)
-            self.StatList.insert(END, "Most recent tournament rank: " + str(database[teams.index(self.searchBar.get().upper().strip())]['rank']))
-            self.StatList.insert(END, "Win Points:  " + str(database[teams.index(self.searchBar.get().upper().strip())]['wp']))
-            self.StatList.insert(END, "Auton Points: " + str(database[teams.index(self.searchBar.get().upper().strip())]['ap']))
-            print(database[teams.index(self.searchBar.get().upper().strip())])
-            result = 1
-        if result == 0:
-            self.StatList.delete(0,END)
-            self.StatList.insert(END, "No results.")
-
-    def get_data2(self):
+    def get_data(self, e=None):
         global entryText
         global result
         global rank
