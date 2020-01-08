@@ -1,7 +1,7 @@
 from tkinter import *
 import time
 from tkinter.ttk import *
-from LoadingTest import *
+#from LoadingTest import *
 
 root = Tk()
 photo = PhotoImage(file=r"C:\Users\Connor\Downloads\settings.png")
@@ -16,7 +16,7 @@ searchsave = StringVar()
 WPCheck.set(1)
 RankCheck.set(1)
 AutonCheck.set(1)
-
+entryText = StringVar()
 
 def rofl(frame2):
     bigFrame.destroy()
@@ -40,8 +40,8 @@ def rofl(frame2):
     idk = Button(root, text="Back", command=lambda: WhyEven(idk, what, checkbox, RankCheckbox, WPCheckbox))
     idk.pack(pady=10)
 
-
-
+def searchDestroy():
+    print("idk")
 class WhyEven():
     def __init__(self, t1, t2, t3, t4, t5):
         t1.destroy()
@@ -55,12 +55,25 @@ class WhyEven():
         MainSearch(bigFrame2)
 
 
-def mode_switch():
-    #searchsave = self.searchBar.get()
-    print(entryText)
 
 
 class MainSearch():
+    searchFrame = Frame(bigFrame)
+    searchFrame.pack(side=TOP)
+    def mode_switch(self):
+
+        # searchsave = self.searchBar.get()
+        print(entryText.get())
+        self.searchFrame.destroy()
+
+    def mode_switch2(self):
+        searchFrame = Frame(bigFrame)
+        searchFrame.place(relx =  0.5, y = 50,  anchor = CENTER)
+        searchBar = Entry(searchFrame, textvariable = entryText)
+        print("Entry: "+ str(entryText))
+        searchBar.pack(pady=2)
+
+
     def __init__(self, master):
         testFrame = Frame(master)
         test = Label(testFrame)
@@ -71,8 +84,8 @@ class MainSearch():
 
         settingsFrame = Frame(master)
         settingsFrame.pack(fill=X, side=TOP)
-        searchFrame = Frame(master)
-        searchFrame.pack(side=TOP)
+        #self.searchFrame = Frame(master)
+        #self.searchFrame.pack(side=TOP)
 
         bottomFrame = Frame(master)
         bottomFrame.pack(side=TOP)
@@ -80,14 +93,14 @@ class MainSearch():
         self.settingsButton = Button(settingsFrame, image=photo, width=30, command=lambda: rofl(master))
         self.settingsButton.pack(side=LEFT, padx=5, pady=5)
 
-        self.Title = Label(searchFrame, text="Enter the team you want to look up below:", textvariable = entryText)
+        self.Title = Label(self.searchFrame, text="Enter the team you want to look up below:", textvariable = entryText)
         self.Title.pack()
 
-        self.searchBar = Entry(searchFrame, textvariable = entryText)
+        self.searchBar = Entry(self.searchFrame, textvariable = entryText)
         print("Entry: "+ str(entryText))
         self.searchBar.pack(pady=2)
 
-        self.button = Button(searchFrame, text="Search", command=self.get_data)
+        self.button = Button(self.searchFrame, text="Search", command=self.get_data)
         self.button.pack()
 
         self.resultTitle = Label(bottomFrame, text="Results:")
@@ -95,33 +108,37 @@ class MainSearch():
 
         self.StatList = Listbox(bottomFrame, width=40)
         self.StatList.pack(ipadx=5)
-        self.mode = Radiobutton(master, text="Search Team stats", variable=modeVar, value=1)
+        self.mode = Radiobutton(master, text="Search Team stats", variable=modeVar, value=1, command = lambda : self.mode_switch2())
         self.mode.pack()
-        self.mode = Radiobutton(master, text="Alliance Picker", variable=modeVar, value=2)
+        self.mode = Radiobutton(master, text="Alliance Picker", variable=modeVar, value=2, command = self.mode_switch)
         self.mode.pack()
 
         self.master.bind('<Return>', self.get_data)
 
+
+
+    def ranking(self):
+        self.StatList.delete(0, END)
     def get_data(self, e=None):
-        global entryText
+        #global entryText
         global result
-        #global rank
 
-        print(entryText)
-        entryText = self.searchBar.get().upper().strip()
-        if entryText in teams:
 
-            print(entryText)
+        print(entryText.get())
+        entryText.set(self.searchBar.get().upper().strip())
+        if entryText.get() in teams:
+
+            print(entryText.get())
             self.StatList.delete(0, END)
             if RankCheck.get() == 1:
                 self.StatList.insert(END, "Most recent tournament rank: " + str(
-                    database[teams.index(entryText)]['rank']))
+                    database[teams.index(entryText.get())]['rank']))
             if WPCheck.get() == 1:
                 self.StatList.insert(END, "Win Points:  " + str(
-                    database[teams.index(entryText)]['wp']))
+                    database[teams.index(entryText.get())]['wp']))
             if AutonCheck.get() == 1:
                 self.StatList.insert(END, "Auton Points: " + str(
-                    database[teams.index(entryText)]['ap']))
+                    database[teams.index(entryText.get())]['ap']))
             #print(AutonCheck)
 
             result = 1
@@ -129,13 +146,13 @@ class MainSearch():
             self.StatList.delete(0, END)
             self.StatList.insert(END, "No results.")
 
-    def callback(self, *args):
+    #def callback(self, *args):
     #if modeVar.get() == 2:
         #alliance_picker(Tk().settingsFrame)
-        print("mode has changed")
-        mode_switch()
+        #print("mode has changed")
+        #self.mode_switch()
 
-    modeVar.trace("w", callback)
+    #modeVar.trace("w", callback)
 
 result = 0
 rank = StringVar()
@@ -143,7 +160,7 @@ wp = StringVar()
 ap = StringVar()
 testList = ["a", "b"]
 
-entryText = StringVar()
+#entryText = StringVar()
 
 b = MainSearch(bigFrame)
 
